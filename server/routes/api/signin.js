@@ -6,36 +6,36 @@ module.exports = (app) => {
    */
   app.post('/api/account/signup', (req, res, next) => {
     const { body } = req;
-    var {
+    let {
       firstName,
       lastName,
       email,
       password
     } = body;
-
+    
     if (!firstName) {
-      res.end({
+      return res.send({
         success: false,
         message: 'Error: first name can not be blank.'
       })
     }
 
     if (!lastName) {
-      res.end({
+      return res.send({
         success: false,
         message: 'Error: last name can not be blank.'
       })
     }
 
     if (!email) {
-      res.end({
+      return res.send({
         success: false,
         message: 'Error: email can not be blank.'
       })
     }
 
     if (!password) {
-      res.end({
+      return res.send({
         success: false,
         message: 'Error: password can not be blank.'
       })
@@ -47,12 +47,12 @@ module.exports = (app) => {
       email: email
     }, (err, previousUsers) => {
       if (err) {
-        res.end({
+        return res.send({
           success: false,
           message: 'Error: Server error.'
         })
       } else if (previousUsers.length > 0) {
-        res.end({
+        return res.send({
           success: false,
           message: 'Error: User already exists.'
         })
@@ -66,12 +66,12 @@ module.exports = (app) => {
 
       newUser.save((err, user) => {
         if (err) {
-          res.end({
+          return res.send({
             success: false,
             message: 'Error: error saving new user.'
           })
         }
-        res.end({
+        return res.send({
           success: true,
           message: 'User signed up.'
         })
